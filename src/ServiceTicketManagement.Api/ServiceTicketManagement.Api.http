@@ -1,0 +1,62 @@
+@ServiceTicketManagement_HostAddress = http://localhost:5168
+
+### Get all tickets
+GET {{ServiceTicketManagement_HostAddress}}/api/tickets
+Accept: application/json
+
+### Filter tickets
+GET {{ServiceTicketManagement_HostAddress}}/api/tickets?status=InProgress&priority=High
+Accept: application/json
+
+### Ticket statistics
+GET {{ServiceTicketManagement_HostAddress}}/api/tickets/statistics
+Accept: application/json
+
+### Create a ticket
+POST {{ServiceTicketManagement_HostAddress}}/api/tickets
+Content-Type: application/json
+
+{
+  "title": "Customer portal login issue",
+  "description": "Investigate why a user receives an unexpected error after login.",
+  "priority": "High",
+  "assignee": "Application Support"
+}
+
+### Replace TICKET_ID before running
+@ticketId = 00000000-0000-0000-0000-000000000000
+
+### Get ticket by id
+GET {{ServiceTicketManagement_HostAddress}}/api/tickets/{{ticketId}}
+Accept: application/json
+
+### Update a ticket
+PUT {{ServiceTicketManagement_HostAddress}}/api/tickets/{{ticketId}}
+Content-Type: application/json
+
+{
+  "title": "Customer portal login issue",
+  "description": "Investigate and reproduce the login issue reported by the customer.",
+  "priority": "Critical",
+  "assignee": "Backend Team"
+}
+
+### Change status
+PATCH {{ServiceTicketManagement_HostAddress}}/api/tickets/{{ticketId}}/status
+Content-Type: application/json
+
+{
+  "status": "InProgress"
+}
+
+### Add comment
+POST {{ServiceTicketManagement_HostAddress}}/api/tickets/{{ticketId}}/comments
+Content-Type: application/json
+
+{
+  "author": "Washim Akram",
+  "message": "Issue reproduced locally. Checking the service logs and database state."
+}
+
+### Delete ticket
+DELETE {{ServiceTicketManagement_HostAddress}}/api/tickets/{{ticketId}}
